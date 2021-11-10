@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        queue = Volley.newRequestQueue(this);
+//        queue = Volley.newRequestQueue(this);
+        queue = MySingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
         TextView textView = findViewById(R.id.text_view);
 
         getJsonObjectRequest(textView);
