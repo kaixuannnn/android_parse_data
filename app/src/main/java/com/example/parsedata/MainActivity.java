@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
 
+
     String url = "https://www.google.com";
     String apiUrl = "https://jsonplaceholder.typicode.com/todos";
     String getApiUrl = "https://jsonplaceholder.typicode.com/todos/1";
@@ -27,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         queue = Volley.newRequestQueue(this);
+        TextView textView = findViewById(R.id.text_view);
 
-        getJsonObjectRequest();
+        getJsonObjectRequest(textView);
 
 
         getJsonArrayRequest();
@@ -36,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
         getString(queue);
     }
 
-    private void getJsonObjectRequest() {
+    private void getJsonObjectRequest(TextView textView) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getApiUrl, null,
                 response -> {
                     try {
+                        textView.setText(response.getString("title"));
                         Log.d("jsonObject", "onCreate: " + response.getString("title"));
                     } catch (JSONException e) {
                         e.printStackTrace();
