@@ -8,6 +8,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     String url = "https://www.google.com";
     String apiUrl = "https://jsonplaceholder.typicode.com/todos";
+    String getApiUrl = "https://jsonplaceholder.typicode.com/todos/1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         queue = Volley.newRequestQueue(this);
 
+        getJsonObjectRequest();
+
+
         getJsonArrayRequest();
 
         getString(queue);
+    }
+
+    private void getJsonObjectRequest() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getApiUrl, null,
+                response -> {
+                    try {
+                        Log.d("jsonObject", "onCreate: " + response.getString("title"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+            Log.d("jsonObject", "onCreate: Failed!");
+        });
+
+        queue.add(jsonObjectRequest);
     }
 
     private void getJsonArrayRequest() {
